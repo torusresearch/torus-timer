@@ -1,6 +1,5 @@
 var express = require('express')
 var app = express()
-var port = 5544
 app.get('/', (req, res) => {
   var timeout = req.query.timeout
   if (timeout > 30000) {
@@ -11,4 +10,4 @@ app.get('/', (req, res) => {
   }, timeout)
 })
 
-app.listen(port)
+app.listen(process.env.PORT)
