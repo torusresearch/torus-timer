@@ -8,9 +8,9 @@ var port = process.env.PORT || 3000
 server.listen(port)
 
 io.on('connection', (socket) => {
-  socket.on('timeout', (timeout) => {
+  socket.on('timeout', (data) => {
     setTimeout(() => {
-      socket.emit('timeout_complete',{})
-    }, timeout)
+      socket.emit(`timeout_complete_${data.id}`,{})
+    }, data.timeout)
   })
 });
