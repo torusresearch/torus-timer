@@ -2,14 +2,15 @@ var express = require('express')
 var cors = require('cors')
 var app = express()
 app.use(cors())
-app.get('/', (req, res) => {
-  var timeout = req.query.timeout
-  if (timeout > 30000) {
-    timeout = 30000
-  }
-  setTimeout(() => {
-    res.send('ok')
-  }, timeout)
-})
+var server = require('http').createServer(app)
+var io = require('socket.io')(server);
+var port = process.env.PORT || 3000
+server.listen(port)
 
-app.listen(process.env.PORT)
+io.on('connection', (socket) => {
+  socket.on('timeout', (timeout) => {
+    setTimeout(() => {
+      socket.emit('timeout_complete',{})
+    }, timeout)
+  })
+});
